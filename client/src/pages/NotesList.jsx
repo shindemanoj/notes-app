@@ -1,60 +1,68 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import NoteService from "../services/NoteService.js";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import NoteModal from "../components/NoteModal";
 
 export default function NotesList() {
     const [notes, setNotes] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [newNoteTitle, setNewNoteTitle] = useState('');
-    const [newNoteContent, setNewNoteContent] = useState('');
+    const [newNoteTitle, setNewNoteTitle] = useState("");
+    const [newNoteContent, setNewNoteContent] = useState("");
 
     useEffect(() => {
         setNotes(NoteService.getNotes());
     }, []);
 
-    const addNote = (newNote) => {
+    const addNote = () => {
         NoteService.addNote(newNoteTitle, newNoteContent);
         setNotes(NoteService.getNotes());
-        setNewNoteTitle('');
-        setNewNoteContent('');
+        setNewNoteTitle("");
+        setNewNoteContent("");
         setShowModal(false);
     };
 
     const toggleModal = () => setShowModal(!showModal);
 
     return (
-        <div>
-            <h1>All Notes</h1>
-            <button onClick={toggleModal}>Add New Note</button>
-            <ul>
-                {notes.map((note) => (
-                    <Link to={`/note/${note.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <h3>{note.title}</h3>
-                        <p>Created At: {new Date(note.createdTime).toLocaleString()}</p>
-                    </Link>
-                ))}
-            </ul>
+        <div className="container mt-4">
+            <h1 className="text-center mb-4">All Notes</h1>
+            {/* Add Note Button */}
+            <div className="text-end mb-3">
+                <button className="btn btn-primary" onClick={toggleModal}>
+                    Add New Note
+                </button>
+            </div>
 
-            {showModal && (
-                <div>
-                    <div>
-                        <h3>Add New Note</h3>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            value={newNoteTitle}
-                            onChange={(e) => setNewNoteTitle(e.target.value)}
-                        />
-                        <textarea
-                            placeholder="Content"
-                            value={newNoteContent}
-                            onChange={(e) => setNewNoteContent(e.target.value)}
-                        />
-                        <button onClick={addNote}>Add</button>
-                        <button onClick={toggleModal}>Cancel</button>
-                    </div>
+            {/* Notes List */}
+            {notes.length === 0 ? (
+                <div className="alert alert-info text-center">No notes available. Add one!</div>
+            ) : (
+                <div className="list-group">
+                    {notes.map((note) => (
+                        <Link
+                            key={note.id}
+                            to={`/note/${note.id}`}
+                            className="list-group-item list-group-item-action"
+                        >
+                            <h5 className="mb-1">{note.title}</h5>
+                            <small className="text-muted">
+                                Created At: {new Date(note.createdTime).toLocaleString()}
+                            </small>
+                        </Link>
+                    ))}
                 </div>
             )}
+
+            {/* Note Modal Component */}
+            <NoteModal
+                showModal={showModal}
+                toggleModal={toggleModal}
+                newNoteTitle={newNoteTitle}
+                setNewNoteTitle={setNewNoteTitle}
+                newNoteContent={newNoteContent}
+                setNewNoteContent={setNewNoteContent}
+                addNote={addNote}
+            />
         </div>
     );
 }

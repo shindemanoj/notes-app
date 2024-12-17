@@ -64,42 +64,49 @@ function NoteDetails() {
             {errors.note && <div className="alert alert-danger">{errors.note}</div>}
             {isEditing ? (
                 <div className="card p-4">
-                    <div className="mb-3">
-                        <label htmlFor="title" className="form-label">
-                            Title
-                        </label>
-                        <input
-                            type="text"
-                            className={`form-control ${errors.title ? 'is-invalid' : ''}`}
-                            id="title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            maxLength="50"
-                        />
-                        {errors.title && <div className="invalid-feedback">{errors.title}</div>}
-                    </div>
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSave();
+                    }}>
+                        <div className="mb-3">
+                            <label htmlFor="title" className="form-label">
+                                Title
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="title"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                maxLength="50"
+                                required
+                            />
+                            {errors.title && <div className="text-danger">{errors.title}</div>}
+                        </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="content" className="form-label">
-                            Content
-                        </label>
-                        <textarea
-                            className={`form-control ${errors.content ? 'is-invalid' : ''}`}
-                            id="content"
-                            rows="4"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            maxLength="200"
-                        ></textarea>
-                        {errors.content && <div className="invalid-feedback">{errors.content}</div>}
-                    </div>
+                        <div className="mb-3">
+                            <label htmlFor="content" className="form-label">
+                                Content
+                            </label>
+                            <textarea
+                                className="form-control"
+                                id="content"
+                                rows="4"
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                                maxLength="200"
+                                required
+                            ></textarea>
+                            {errors.content && <div className="text-danger">{errors.content}</div>}
+                        </div>
 
-                    <button className="btn btn-primary mb-2" onClick={handleSave}>
-                        Save
-                    </button>
-                    <button className="btn btn-secondary" onClick={() => setIsEditing(false)}>
-                        Cancel
-                    </button>
+                        <button type="submit" className="btn btn-primary me-2">
+                            Save
+                        </button>
+                        <button type="button" className="btn btn-secondary" onClick={() => setIsEditing(false)}>
+                            Cancel
+                        </button>
+                    </form>
                 </div>
             ) : (
                 <div className="card p-4">

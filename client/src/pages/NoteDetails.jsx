@@ -10,7 +10,7 @@ function NoteDetails() {
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [errors, setErrors] = useState({ title: '', content: '' });
+    const [errors, setErrors] = useState({ title: '', content: '', note: '' });
 
     useEffect(() => {
         const notes = NoteService.getNotes();
@@ -20,13 +20,15 @@ function NoteDetails() {
             setTitle(foundNote.title);
             setContent(foundNote.content);
         } else {
-            alert('Note not found!');
+            const newErrors = { title: '', content: '', note:'' };
+            newErrors.note = 'Note not found';    // removing alert, adding to error
+            setErrors(newErrors);
             navigate('/');
         }
     }, [id, navigate]);
 
     const validateFields = () => {
-        const newErrors = { title: '', content: '' };
+        const newErrors = { title: '', content: '', note:'' };
 
         if (title.length > 50) {
             newErrors.title = 'Title cannot exceed 50 characters.';
@@ -38,7 +40,6 @@ function NoteDetails() {
 
         setErrors(newErrors);
 
-        // Return true if no errors
         return !newErrors.title && !newErrors.content;
     };
 
@@ -52,48 +53,71 @@ function NoteDetails() {
 
     const handleDelete = () => {
         NoteService.deleteNote(id);
-        navigate('/'); // Redirect to notes list after deleting
+        navigate('/');
     };
 
     if (!note) return <p>Loading...</p>;
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h1>Note Details</h1>
+        <div className="container mt-4">
+            <h1 className="mb-4">Note Details</h1>
+            {errors.note && <div className="alert alert-danger">{errors.note}</div>}
             {isEditing ? (
-                <div>
-                    <label>Title</label>
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        maxLength="50"
-                        style={{ display: 'block', marginBottom: '10px' }}
-                    />
-                    {errors.title && <p style={{ color: 'red' }}>{errors.title}</p>}
+                <div className="card p-4">
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSave();
+                    }}>
+                        <div className="mb-3">
+                            <label htmlFor="title" className="form-label">
+                                Title
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="title"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                maxLength="50"
+                                required
+                            />
+                            {errors.title && <div className="text-danger">{errors.title}</div>}
+                        </div>
 
-                    <label>Content</label>
-                    <textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        maxLength="200"
-                        rows="4"
-                        style={{ display: 'block', marginBottom: '10px' }}
-                    />
-                    {errors.content && <p style={{ color: 'red' }}>{errors.content}</p>}
+                        <div className="mb-3">
+                            <label htmlFor="content" className="form-label">
+                                Content
+                            </label>
+                            <textarea
+                                className="form-control"
+                                id="content"
+                                rows="4"
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                                maxLength="200"
+                                required
+                            ></textarea>
+                            {errors.content && <div className="text-danger">{errors.content}</div>}
+                        </div>
 
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={() => setIsEditing(false)} style={{ marginLeft: '10px' }}>
-                        Cancel
-                    </button>
+                        <button type="submit" className="btn btn-primary me-2">
+                            Save
+                        </button>
+                        <button type="button" className="btn btn-secondary" onClick={() => setIsEditing(false)}>
+                            Cancel
+                        </button>
+                    </form>
                 </div>
             ) : (
-                <div>
+                <div className="card p-4">
                     <h3>{note.title}</h3>
-                    <p>Created At: {new Date(note.createdTime).toLocaleString()}</p>
+                    <p className="text-muted">Created At: {new Date(note.createdTime).toLocaleString()}</p>
                     <p>{note.content}</p>
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
-                    <button onClick={handleDelete} style={{ marginLeft: '10px', color: 'red' }}>
+
+                    <button className="btn btn-warning mb-2" onClick={() => setIsEditing(true)}>
+                        Edit
+                    </button>
+                    <button className="btn btn-danger" onClick={handleDelete}>
                         Delete
                     </button>
                 </div>

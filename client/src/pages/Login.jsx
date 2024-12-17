@@ -18,28 +18,34 @@ export default function Login() {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <div>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter username"
-                />
+        <div className="container mt-5">
+            <h1 className="text-center mb-4">Login</h1>
+            {error && <div className="alert alert-danger">{error}</div>}
+            <div className="card p-4">
+                <div className="mb-3">
+                    <label htmlFor="username" className="form-label">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        className="form-control"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Enter username"
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        className="form-control"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter password"
+                    />
+                </div>
+                <button className="btn btn-primary w-100" onClick={handleLogin}>Login</button>
             </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter password"
-                />
-            </div>
-            <button onClick={handleLogin}>Login</button>
         </div>
     );
 }

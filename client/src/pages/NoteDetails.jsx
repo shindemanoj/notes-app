@@ -54,7 +54,7 @@ function NoteDetails() {
 
     const handleDelete = () => {
         NoteService.deleteNote(id);
-        navigate('/');
+        navigate('/notes');
     };
 
     if (!note) return <p>Loading...</p>;

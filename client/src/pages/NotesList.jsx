@@ -3,12 +3,14 @@ import NoteService from "../services/NoteService.js";
 import { Link } from "react-router-dom";
 import NoteModal from "../components/NoteModal";
 import withAuth from '../components/withAuth';
+import { useNavigate } from 'react-router-dom';
 
 function NotesList() {
     const [notes, setNotes] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [newNoteTitle, setNewNoteTitle] = useState("");
     const [newNoteContent, setNewNoteContent] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         setNotes(NoteService.getNotes());
@@ -20,6 +22,7 @@ function NotesList() {
         setNewNoteTitle("");
         setNewNoteContent("");
         setShowModal(false);
+        navigate('/notes');
     };
 
     const toggleModal = () => setShowModal(!showModal);
@@ -42,7 +45,7 @@ function NotesList() {
                     {notes.map((note) => (
                         <Link
                             key={note.id}
-                            to={`/note/${note.id}`}
+                            to={`/notes/${note.id}`}
                             className="list-group-item list-group-item-action"
                         >
                             <h5 className="mb-1">{note.title}</h5>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import NoteService from "../services/NoteService.js";
+import { Link } from 'react-router-dom';
 
 export default function NotesList() {
     const [notes, setNotes] = useState([]);
@@ -27,9 +28,10 @@ export default function NotesList() {
             <button onClick={toggleModal}>Add New Note</button>
             <ul>
                 {notes.map((note) => (
-                    <li key={note.id}>
-                        <strong>{note.title}</strong> - {note.createdTime}
-                    </li>
+                    <Link to={`/note/${note.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <h3>{note.title}</h3>
+                        <p>Created At: {new Date(note.createdTime).toLocaleString()}</p>
+                    </Link>
                 ))}
             </ul>
 

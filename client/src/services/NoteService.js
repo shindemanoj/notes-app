@@ -37,6 +37,20 @@ const NoteService = {
         notes.push(newNote);
         localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
     },
+
+    updateNote: (id, updatedData) => {
+        const notes = NoteService.getNotes();
+        const updatedNotes = notes.map((note) =>
+            note.id === id ? { ...note, ...updatedData } : note
+        );
+        localStorage.setItem(NOTES_KEY, JSON.stringify(updatedNotes));
+    },
+
+    deleteNote: (id) => {
+        const notes = NoteService.getNotes();
+        const filteredNotes = notes.filter((note) => note.id !== id);
+        localStorage.setItem(NOTES_KEY, JSON.stringify(filteredNotes));
+    },
 };
 
 export default NoteService;

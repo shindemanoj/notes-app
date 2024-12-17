@@ -56,7 +56,7 @@ This is a simple CRUD (Create, Read, Update, Delete) Notes web application built
 
 ## Usage Instructions
 1.	Login:
-Go to /login and use the credentials:
+Go to / and use the credentials:
 -	Username: user
 -	Password: password
 

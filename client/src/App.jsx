@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/notes.jsx";
+import Home from "./pages/NotesList.jsx";
 
 function App() {
     return (

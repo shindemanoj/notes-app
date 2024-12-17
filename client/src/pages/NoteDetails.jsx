@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import NoteService from '../services/NoteService';
+import withAuth from '../components/withAuth';
 
 function NoteDetails() {
     const { id } = useParams();
@@ -126,4 +127,4 @@ function NoteDetails() {
     );
 }
 
-export default NoteDetails;
+export default withAuth(NoteDetails);

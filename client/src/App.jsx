@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/NotesList.jsx";
+import NotesList from "./pages/NotesList.jsx";
 import NoteDetails from './pages/NoteDetails';
+import Login from './pages/Login';
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/notes" element={<NotesList />} />
                 <Route path="/note/:id" element={<NoteDetails />} />
             </Routes>
         </Router>

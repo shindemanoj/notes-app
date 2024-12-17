@@ -1,6 +1,7 @@
 import React from "react";
+import withAuth from "./withAuth.jsx";
 
-export default function NoteModal({
+function NoteModal({
                                       showModal,
                                       toggleModal,
                                       newNoteTitle,
@@ -77,3 +78,5 @@ export default function NoteModal({
         </div>
     );
 }
+
+export default withAuth(NoteModal);

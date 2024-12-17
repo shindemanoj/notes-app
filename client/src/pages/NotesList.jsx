@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import NoteService from "../services/NoteService.js";
 import { Link } from "react-router-dom";
 import NoteModal from "../components/NoteModal";
+import withAuth from '../components/withAuth';
 
-export default function NotesList() {
+function NotesList() {
     const [notes, setNotes] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [newNoteTitle, setNewNoteTitle] = useState("");
@@ -66,3 +67,4 @@ export default function NotesList() {
         </div>
     );
 }
+export default withAuth(NotesList);

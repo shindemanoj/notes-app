@@ -67,7 +67,7 @@ Go to / and use the credentials:
 
 ---
 
-##Future Improvements
+## Future Improvements
 - 	Add tests
 - 	Add 'back' button
 -	Add user authentication via JWT or OAuth.
